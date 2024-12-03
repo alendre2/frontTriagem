@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triagem Hospitalar</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Triagem Hospitalar</h1>
+        
+        <!-- Formulário para adicionar paciente -->
+        <h2>Adicionar Paciente</h2>
+        <form id="addPatientForm">
+            <input type="text" id="name" placeholder="Nome do paciente" required>
+            <input type="checkbox" id="preferencial"> Preferencial
+            <button type="submit">Adicionar</button>
+        </form>
+
+        <!-- Formulário para atualizar paciente -->
+        <h2>Atualizar Paciente</h2>
+        <form id="updatePatientForm">
+            <input type="number" id="updateId" placeholder="ID do paciente" required>
+            <input type="text" id="updateName" placeholder="Nome do paciente" required>
+            <input type="checkbox" id="updatePreferencial"> Preferencial
+            <button type="submit">Atualizar</button>
+        </form>
+
+        <!-- Formulário para deletar paciente -->
+        <h2>Deletar Paciente</h2>
+        <form id="deletePatientForm">
+            <input type="number" id="deleteId" placeholder="ID do paciente" required>
+            <button type="submit">Deletar</button>
+        </form>
+
+        <!-- Formulário para pesquisar pacientes -->
+        <h2>Pesquisar Pacientes</h2>
+        <form id="searchPatientForm">
+            <input type="text" id="searchName" placeholder="Nome do paciente" required>
+            <button type="submit">Pesquisar</button>
+        </form>
+        <ul id="searchResults"></ul>
+
+        <!-- Listagem de pacientes -->
+        <h2>Listar Pacientes</h2>
+        <button id="loadPatientsBtn">Carregar Pacientes</button>
+        <ul id="patientsList"></ul>
+
+        <!-- Fila de triagem -->
+        <h2>Fila de Triagem</h2>
+        <button id="loadTriagemBtn">Carregar Fila</button>
+        <ul id="triagemList"></ul>
+
+        <!-- Chamar próximo paciente -->
+        <h2>Próximo Paciente</h2>
+        <button id="nextPatientBtn">Chamar Próximo</button>
+        <p id="nextPatient"></p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
