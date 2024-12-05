@@ -15,7 +15,13 @@ body {
 }
 
 h1 {
+    font-family: Arial, Helvetica, sans-serif;
     text-align: center;
+    color: #333;
+}
+
+h2 {
+    font-family: Arial, Helvetica, sans-serif;
     color: #333;
 }
 

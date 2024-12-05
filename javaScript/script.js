@@ -92,3 +92,74 @@ document.addEventListener('DOMContentLoaded', () => {
         deletePaciente(id);
     });
 });
+
+function getPaciente(nome) {
+    const urlListarPorNome = `http://localhost:8080/pacientes/listar_por_nome?nome=${nome}`
+
+    axios.get(urlListarPorNome)
+        .then(response => {
+            const searchResults = document.getElementById('searchResults');
+            searchResults.innerHTML = '';
+
+            if (response.data.length > 0) {
+                response.data.forEach(paciente => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `Nome: ${paciente.nome}, Preferencial: ${paciente.preferencial}`;
+
+                    searchResults.appendChild(listItem);
+                });
+            } 
+            else {
+                const noResults = document.createElement('li');
+                noResults.textContent = 'Nenhum paciente encontrado com esse nome.';
+                searchResults.appendChild(noResults);
+            }
+        })
+        .catch(error => {
+            console.error("Erro ao listar pacientes: ", error);
+        });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const listarPorNome = document.getElementById('listarPorNome');
+
+    listarPorNome.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const nome = document.getElementById('buscarPorNome').value;
+        
+        if (nome) {
+            getPaciente(nome);
+        }
+    });
+});
+
+
+function listarPacientes() {
+    axios.get(url)
+        .then(response => {
+            const pacientes = response.data;
+            const lista = document.getElementById('listaDePacientes');
+            lista.innerHTML = '';
+
+            if (pacientes.length > 0) {
+                pacientes.forEach(paciente => {
+                    const li = document.createElement('li');
+                    li.textContent = `Nome: ${paciente.nome}, Preferencial: ${paciente.preferencial}`;
+                    lista.appendChild(li);
+                });
+            } else {
+                const li = document.createElement('li');
+                li.textContent = 'Nenhum paciente encontrado.';
+                lista.appendChild(li);
+            }
+        })
+        .catch(error => {
+            console.error("Erro ao carregar os pacientes: ", error);
+        });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const botaoListarPacientes = document.getElementById('listarPacientes');
+    botaoListarPacientes.addEventListener('click', listarPacientes);
+});
