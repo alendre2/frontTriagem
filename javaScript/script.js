@@ -3,6 +3,7 @@ const url = "http://localhost:8080/pacientes"
 const respostaCriarPaciente = "Paciente cadastrado!"
 const erroAoCriarPaciente = "Não foi possível cadastrar o paciente, tente novamente."
 const respostaAtualizarPaciente = "Sucesso! dados cadastrais foram atualizados."
+const respostaDeletarPaciente = "Paciente excluído."
 
 function postPaciente(paciente) {
     axios.post(url, paciente)
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function putPaciente(id, paciente){
     const urlAtualizar =  `http://localhost:8080/pacientes/${id}`;
+
     axios.put(urlAtualizar, paciente)
     .then(response => {
         console.log(response.data);
@@ -66,4 +68,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-func
+
+function deletePaciente(id){
+    const urlDeletar = `http://localhost:8080/pacientes/${id}`;
+
+    axios.delete(urlDeletar)
+    .then(response => {
+        console.log(response.data);
+        alert(respostaDeletarPaciente);
+    })
+    .catch(error => {
+        log.error("Não foi possível deletar o paciente.", error);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const deletarPaciente = document.getElementById('deletarPaciente');
+
+    deletarPaciente.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const id = parseInt(document.getElementById('deleteId').value);
+        deletePaciente(id);
+    });
+});
