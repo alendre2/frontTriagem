@@ -4,6 +4,7 @@ const respostaCriarPaciente = "Paciente cadastrado!"
 const erroAoCriarPaciente = "Não foi possível cadastrar o paciente, tente novamente."
 const respostaAtualizarPaciente = "Sucesso! dados cadastrais foram atualizados."
 const respostaDeletarPaciente = "Paciente excluído."
+const respostaErroDeletar = "Não foi possível deletar o paciente."
 
 function postPaciente(paciente) {
     axios.post(url, paciente)
@@ -79,6 +80,7 @@ function deletePaciente(id){
     })
     .catch(error => {
         log.error("Não foi possível deletar o paciente.", error);
+        alert(respostaErroDeletar)
     });
 }
 
@@ -162,4 +164,60 @@ function listarPacientes() {
 document.addEventListener('DOMContentLoaded', () => {
     const botaoListarPacientes = document.getElementById('listarPacientes');
     botaoListarPacientes.addEventListener('click', listarPacientes);
+});
+
+
+function listarFila() {
+    const urlTriagem = "http://localhost:8080/pacientes/triagem"
+    axios.get(urlTriagem)
+        .then(response => {
+            const pacientes = response.data;
+            const lista = document.getElementById('listaTriagem');
+            lista.innerHTML = '';
+
+            if (pacientes.length === 0) {
+                const li = document.createElement('li');
+                li.textContent = 'Nenhum paciente na fila.';
+                lista.appendChild(li);
+            } else {
+                pacientes.forEach(paciente => {
+                    const li = document.createElement('li');
+                    li.textContent = `Nome: ${paciente.nome}, Preferencial: ${paciente.preferencial}`;
+                    lista.appendChild(li);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao carregar os pacientes:', error);
+        });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const carregarListaTriagemBtn = document.getElementById('carregarListaTriagem');
+    carregarListaTriagemBtn.addEventListener('click', listarFila);
+});
+
+function chamarProximoPaciente() {
+    const urlChamarProximo = "http://localhost:8080/pacientes/proximo";
+
+    axios.get(urlChamarProximo)
+        .then(response => {
+            const paciente = response.data;
+            const proximoPacienteElemento = document.getElementById('proximoPaciente');
+            proximoPacienteElemento.textContent = `Próximo paciente: ${paciente.nome}, Preferencial: ${paciente.preferencial}`;
+        })
+        .catch(error => {
+            const proximoPacienteElemento = document.getElementById('proximoPaciente');
+            if (error.response && error.response.status === 400) {
+                proximoPacienteElemento.textContent = "A fila de atendimento está vazia.";
+            } else {
+                console.error("Erro ao chamar o próximo paciente: ", error);
+                proximoPacienteElemento.textContent = "Erro ao buscar o próximo paciente.";
+            }
+        });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const botaoChamarProximo = document.getElementById('chamarProximoPaciente');
+    botaoChamarProximo.addEventListener('click', chamarProximoPaciente);
 });
